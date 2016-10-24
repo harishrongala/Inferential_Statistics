@@ -1,0 +1,13 @@
+library(ggplot2)
+library(gridExtra)
+tdata<-ToothGrowth
+# print(summary(tdata))
+# vc_data<-subset(tdata,supp=='VC')
+# oj_data<-subset(tdata,supp=='OJ')
+# p<-ggplot(vc_data,aes(len,dose))+geom_point()+geom_smooth(method = "lm")
+# q<-ggplot(oj_data,aes(len,dose))+geom_point()+geom_smooth(method = "lm")
+# grid.arrange(p,q,ncol=2)
+tdata$dose<-as.factor(tdata$dose)
+plot1<-ggplot(tdata,aes(supp,len))+geom_boxplot(aes(fill=supp))+facet_grid(.~dose)+labs(x="Supplement",y="Tooth length",title="Tooth growth grouped by dose")
+plot2<-ggplot(tdata,aes(dose,len))+geom_boxplot(aes(fill=dose))+facet_grid(.~supp)+labs(x="Dose",y="Tooth length",title="Tooth growth grouped by supplement")
+grid.arrange(plot1,plot2)
