@@ -34,12 +34,13 @@ set.seed(1993)
 sample=NULL
 # We take lambda as 0.2
 lambda=0.2
+n=40
 for(i in 1:1000){
-sample=c(sample,mean(rexp(40,lambda)))
+sample=c(sample,mean(rexp(n,lambda)))
 }
 # Theoretical mean and variance
 theoretical_mean=1/lambda
-theoretical_var=1/lambda^2
+theoretical_var=1/lambda^2/n
 # Mean and Variance of our simulations
 sample_mean=mean(sample)
 sample_var=var(sample)
@@ -51,7 +52,7 @@ results<-as.table(results)
 print(results)
 ```
 
-**Result:** From the above table, sample mean is consistent with theoretical mean. However, our sample variance is not even close to the theoretical variance.
+**Result:** From the above table, sample mean and variance are consistent with theoretical mean and variance respectively.
 
 ## 2. Let's Visualize
 
@@ -148,7 +149,7 @@ sample=c(sample,mean(rexp(40,lambda)))
 }
 # Theoretical mean and variance
 theoretical_mean=1/lambda
-theoretical_var=1/lambda^2
+theoretical_var=1/lambda^2/n
 # Mean and Variance of our simulations
 sample_mean=mean(sample)
 sample_var=var(sample)

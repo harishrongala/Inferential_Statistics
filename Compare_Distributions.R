@@ -1,3 +1,4 @@
+library(ggplot2)
 library(gridExtra)
 # For reproducibility we set random generator seed as following
 set.seed(1993)
