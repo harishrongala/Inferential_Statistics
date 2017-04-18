@@ -2,28 +2,31 @@
 title: "Analyzing ToothGrowth Data"
 author: "Harish Kumar Rongala"
 date: "October 23, 2016"
-output: pdf_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Overview
+## 1. Overview
 
-Can we draw conclusions using statistical techniques ? Let's explore more about it by analyzing ToothGrowth data set, available in R. We will follow these steps to make our conclusions
+This document aims at drawing conclusions on the data using statistical tests. The experimental data used in this document is **ToothGrowth** data set from *datasets* package in R. The following steps will complete this process.
 
-1. Load data and look at its basic features
-2. Perform Exploratory Data Analysis to find any interesting features
-3. Perform T-tests
-4. Draw conclusions
-5. List our assumptions
+1. Perform Exploratory Data Analysis on the data
+2. Perform T-tests
+3. Infer from the tests and Draw conclusions
+4. Finally, list the assumptions
 
-**Data set Description**
-The response is the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs. Each animal received one of three dose levels of vitamin C (0.5, 1, and 2 mg/day) by one of two delivery methods, (orange juice or ascorbic acid (a form of vitamin C and coded as VC).
+## 2. Dataset description
 
+The variable of interest is the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs. Each animal received one of three dose levels of vitamin C (0.5, 1, and 2 mg/day) by one of two delivery methods, orange juice or ascorbic acid (a form of vitamin C and coded as VC).
 
-## 1. What's in ToothGrowth Data
+## 3. Exploratory data analysis
+
+### 3.1. Structure of the data
 
 Using R's **str** function, we can look at the structure of ToothGrowth data
 
@@ -31,17 +34,17 @@ Using R's **str** function, we can look at the structure of ToothGrowth data
 str(ToothGrowth)
 ```
 
-So, we are dealing with rather smaller data set. We have 60 observations with 3 variables to deal with. Among them, 2 are numeric/continuous and 1 is categorical/discrete. Let's dive in and look at more quantitative details, using R's **summary** function.
+So, we are dealing with rather smaller data set. We have 60 observations with 3 variables to deal with. Among them, two are numeric/continuous and one is categorical/discrete. Let's dive in and look at more quantitative details, using R's **summary** function.
 
 ```{r echo=FALSE}
 summary(ToothGrowth)
 ```
 
-We have 30 observations for each type of supplement. Interesting values like mean, median, quantiles of the variables are listed. That's pretty detailed, however this may not make sense when observed individually. So, we move further and combine these variables to unearth any interesting findings.
+We have 30 observations for each type of supplement. Interesting values like mean, median, quantiles of the variables are listed. However, this may not make sense when individually observed. So, we move further and combine these variables to unearth any interesting findings.
 
-## 2. Exploratory data analysis
+### 3.2. Finding patterns
 
-If we understood the experiment, **len** (Tooth length) is something we are interested in. We are trying to discover the affects of the supplements, **Orange Juice (OJ)** and **Vitamin C (VC)** given in different doses, on tooth growth.
+If we understand the experiment, **len** (Tooth length) is something we are interested in. We are trying to discover the affects of the supplements, **Orange Juice (OJ)** and **Ascorbic acid (VC)** given in different doses, on tooth growth.
 
 Let's quickly plot the affect of supplements in different doses on tooth length. we group the tooth growth by supplement to closely observe the affect of each supplement with increase in the dose.
 
@@ -55,11 +58,11 @@ plot1<-ggplot(tdata,aes(dose,len))+geom_boxplot(aes(fill=dose))+facet_grid(.~sup
 print(plot1)
 ```
 
-**Observation**: From the above plot, we notice that both Orange Juice (OJ) and Vitamin C (VC) increase the tooth growth, as the dose increases. Although for dose 0.5 and 1, Orange Juice (OJ) seems to contribute more to tooth length than Vitamin C (VC). We cannot conclude as the results are not consistent.
+**Observation**: From the above plot, we notice that both Orange Juice (OJ) and ascorbic acid (VC) increase the tooth growth as the dose increases. Although for dose 0.5 and 1, Orange Juice (OJ) seems to contribute more to tooth length than ascorbic acid (VC). However we cannot conclude this as the results are inconsistent.
 
-## 3. Confidence Intervals
+## 4. Statistical testing
 
-Looking at their confidence intervals can help us conclude which factor has actual affect on the tooth growth. We have a total of observations 60 observations, which is relatively very less to make proper estimate. However, Gosset's (Student's) t-test can help us deal with this type of less sample size.
+Since we have a total of 60 observations, which is relatively very less to make a proper estimate. We can go with Gosset's (Student's) t-test which can help deal with smaller sample size.
 
 
 **T-test for length and supplement**
@@ -98,21 +101,21 @@ t.test(data=subset(ToothGrowth,dose!=1), len~dose, var.equal=FALSE, paired=FALSE
 
 **Result:** Our 95% Confidence interval is **-18.15 to -12.83**, which means dose **2** has more affect than **0.5** on the tooth growth.
 
-## 4. Conclusion
+## 5. Conclusion
 
 From our Exploratory data analysis and T-tests, we can draw following conclusions about the Tooth Growth data
 
-* There is no significant difference between Orange Juice (OJ) and Vitamin C (VC) in the tooth growth scenario.
+* There is no significant difference between Orange Juice (OJ) and ascorbic acid (VC) in the case of tooth growth.
 * Increase in the dosage of supplement increases the tooth growth.
 
-## 5. Assumptions
+## 6. Assumptions
 
 The above conclusions are made on the following assumptions
 
 * Data is independent, Guinea pigs are randomly selected
 * Data is not paired, No guinea pig took both supplements
 
-## 6. Appendix
+## 7. Appendix
 
 Code for plot in the Exploratory data analysis section can be found here.
 
